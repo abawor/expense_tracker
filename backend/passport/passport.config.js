@@ -13,7 +13,7 @@ export const configurePAssport = async () => {
     passport.deserializeUser(async (id, done) => {
         console.log("Deserializing user")
         try {
-            const user = await User.findbyId(id)
+            const user = await User.findById(id)
             done(null, user)
         } catch (err) {
             done(err)
@@ -27,7 +27,7 @@ export const configurePAssport = async () => {
                 if(!user) {
                     throw new Error("Invalid username or password")
                 }
-                const validPassword = await bcrypt.compare(password, user.password)
+                const validPassword = bcrypt.compare(password, user.password)
 
                 if(!validPassword) {
                     throw new Error("Invalid username or password")

@@ -16,7 +16,7 @@ const userResolver = {
                 }
 
                 const salt = await bcrypt.genSalt(10)
-                const hashedPassword = await bcrypt.hash(passowrd, salt)
+                const hashedPassword = await bcrypt.hash(password, salt)
 
                 const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${username}`;
 				const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${username}`;
@@ -24,7 +24,7 @@ const userResolver = {
                 const newUser = new User({
                     username,
                     name,
-                    passowrd:hashedPassword,
+                    password: hashedPassword,
                     gender,
                     profilePicture: gender === "male" ? boyProfilePic : girlProfilePic
                 })
@@ -52,13 +52,13 @@ const userResolver = {
             }
         },
 
-        logout: async(_, __, {}) => {
+        logout: async(_, __, context) => {
             try {
                 await context.logout()
-                req.session.destroy((err) => {
+                context.req.session.destroy((err) => {
                     if (err) throw err
                 })
-                res.clearCookie("connect.sid")
+                context.res.clearCookie("connect.sid")
                 return { message: "Logged out successfully" }
             } catch (err) {
                 console.log("Error in logout: ", err)
