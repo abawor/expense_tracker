@@ -13,7 +13,6 @@ const categoryColorMap = {
 	saving: "from-green-700 to-green-400",
 	expense: "from-pink-800 to-pink-600",
 	investment: "from-blue-700 to-blue-400",
-	// Add more categories and corresponding color classes as needed
 };
 
 const Card = ({ transaction }) => {
@@ -24,7 +23,8 @@ const Card = ({ transaction }) => {
 	});
 
 	description = description[0].toUpperCase() + description.slice(1);
-	category = category[0].toUpperCase() + category.slice(1);	
+	category = category[0].toUpperCase() + category.slice(1);
+	paymentType = paymentType[0].toUpperCase() + paymentType.slice(1);
 
 	const handleDelete = async () => {
 		try {
@@ -42,8 +42,9 @@ const Card = ({ transaction }) => {
 				<div className='flex flex-row items-center justify-between'>
 					<h2 className='text-lg font-bold text-white'>{category}</h2>
 					<div className='flex items-center gap-2'>
-					{!loading && <FaTrash className={"cursor-pointer"} onClick={handleDelete} />}
-					{loading && <div className='w-6 h-6 border-t-2 border-b-2  rounded-full animate-spin'></div>}						<Link to={`/transaction/${transaction._id}`}>
+						{!loading && <FaTrash className={"cursor-pointer"} onClick={handleDelete} />}
+						{loading && <div className='w-6 h-6 border-t-2 border-b-2  rounded-full animate-spin'></div>}
+						<Link to={`/transaction/${transaction._id}`}>
 							<HiPencilAlt className='cursor-pointer' size={20} />
 						</Link>
 					</div>
