@@ -10,7 +10,7 @@ const transactionResolver = {
                 })
                 await newTransaction.save()
                 return newTransaction
-            } catch (error) {
+            } catch (err) {
                 console.log("Error in createTransaction mutation: ", err)
                 throw new Error(err.message || "Error creating transaction")
             }
@@ -19,7 +19,7 @@ const transactionResolver = {
             try {
                 const updatedTransaction = await Transaction.findByIdAndUpdate(input.transactionId, input, {new: true})
                 return updatedTransaction
-            } catch (error) {
+            } catch (err) {
                 console.log("Error in updateTransaction mutation: ", err)
                 throw new Error(err.message || "Error updating transaction")
                 
