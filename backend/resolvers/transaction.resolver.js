@@ -1,3 +1,4 @@
+import User from "../models/user.model.js";
 import Transaction from "../models/transaction.model.js";
 
 const transactionResolver = {
@@ -71,6 +72,18 @@ const transactionResolver = {
                 categoryMap[transaction.category] += transaction.amount
             })
             return Object.entries(categoryMap).map(([category, totalAmount]) => ({category, totalAmount}))    
+        }
+    },
+    Transaction: {
+        user: async (parent) => {
+            const userId = parent.userId
+            try {
+                const user = await User.findById(userId)
+                return user
+            } catch (error) {
+                console.log("Error in user resolver: ", error)
+                throw new Error(error.message || "Error getting user")                
+            }
         }
     }
 };
