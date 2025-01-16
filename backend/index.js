@@ -2,6 +2,7 @@ import express from "express";
 import http from "http";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
 
 import passport from "passport";
 import session from "express-session";
@@ -21,6 +22,8 @@ import { configurePAssport } from "./passport/passport.config.js";
 
 dotenv.config();
 configurePAssport();
+
+const __dirname = path.resolve();
 
 const app = express();
 
@@ -71,7 +74,13 @@ app.use(
     }),
 );
 
+app.use(express.static(path.join(__dirname, "frontend/dist")));
+
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "frontend/dist", "index.html"));
+})
+
 await new Promise((resolve) => httpServer.listen({ port : 4000 }, resolve));
 await connectDB();
 
-console.log(`Server ready at http://localhost:4000/graphql`);
+console.log(`Server ready at http://localhost:4000`);
